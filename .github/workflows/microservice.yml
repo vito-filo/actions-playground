@@ -46,14 +46,25 @@ jobs:
         with:
           name: zipped-bundle
 
-      - name: Upload file to S3
-        uses: a-sync/s3-uploader@master
+      # - name: Upload file to S3
+      #   uses: a-sync/s3-uploader@master
+      #   with:
+      #     args: --acl private
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: ${{ vars.AWS_REGION }}
+      #     S3_BUCKET: ${{ vars.S3_BUCKET }}
+      #     S3_KEY: ""
+      #     FILE: ${{ github.sha }}.zip
+
+      - name: Deploy Lambda Function
+        uses: appleboy/lambda-action@v0.2.0
         with:
-          args: --acl private
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          S3_BUCKET: ${{ vars.S3_BUCKET }}
-          S3_KEY: ""
-          FILE: ${{ github.sha }}.zip
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: Hello-Microservice
+          zip_file: ${{ github.sha }}.zip
+          runtime: python3.8
+          # handler: foobar
