@@ -67,4 +67,4 @@ jobs:
           function_name: Hello-Microservice
           zip_file: ${{ github.sha }}.zip
           runtime: python3.9
-          # handler: foobar
+          handler: function.lambda_handler
