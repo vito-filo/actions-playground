@@ -35,4 +35,22 @@ jobs:
         with:
           name: zipped-bundle
           path: ${{ github.sha }}.zip
- 
+
+  upload:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: zipped-bundle
+
+      - name: Upload to S3
+        uses: osiegmar/s3-publisher-action@v1
+        with:
+          bucket: ${{ vars.S3_BUCKET }}
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
