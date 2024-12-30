@@ -65,7 +65,7 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ vars.AWS_REGION }}
-          function_name: Hello-Microservice
+          function_name: ${{ vars.AWS_FUNCTION_NAME}}
           zip_file: ${{ github.sha }}.zip
           runtime: python3.9
           handler: function.lambda_handler
