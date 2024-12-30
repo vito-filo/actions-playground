@@ -46,11 +46,14 @@ jobs:
         with:
           name: zipped-bundle
 
-      - name: Upload to S3
-        uses: osiegmar/s3-publisher-action@v1
+      - name: Upload file to S3
+        uses: a-sync/s3-uploader@master
         with:
-          bucket: ${{ vars.S3_BUCKET }}
+          args: --acl public-read
         env:
-          AWS_REGION: ${{ vars.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          S3_BUCKET: ${{ vars.S3_BUCKET }}
+          S3_KEY: ""
+          FILE: ${{ github.sha }}.zip
